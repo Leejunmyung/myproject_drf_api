@@ -1,9 +1,10 @@
 from django.db import models
 
-class Board(models.Model):
-    id = models.AutoField(primary_key=True)
+class Product(models.Model):
+    author = models.ForeignKey("User", on_delete=models.CASCADE)
     photo = models.ImageField()
     title = models.CharField(max_length=100)
+    description = models.TextField()
     price = models.IntegerField()
     area = models.TextField()
     created_at = models.TimeField()
@@ -13,20 +14,14 @@ class Board(models.Model):
     def __str__(self):
         return self.title
 
-class Sell(models.Model):
-    sell_id = models.ForeignKey(Board, on_delete=models.CASCADE)
-    id = models.AutoField(primary_key=True)
-    photo = models.ImageField()
-    title = models.CharField(max_length=100)
-    description = models.TextField()
-    price = models.IntegerField()
 
 
 class Comment(models.Model):
-    comment_id = models.ForeignKey(Sell, on_delete=models.CASCADE)
+    user_id = models.ForeignKey("User", on_delete=models.CASCADE)
+    product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
     content = models.TextField()
-    area = models.TextField()
-    created_at = models.DateField()
+    created_at = models.DateTimeField()
+    updated_at = models.DateTimeField()
 
 
 
